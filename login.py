@@ -47,7 +47,7 @@ project1={
 def load(user,file):
     if file=="my_data3":
         output=open('data.pkl','wb')
-    elif file=="my_star3":
+    elif file=="my_star5":
         output=open('data1.pkl','wb')
     elif file=="my_pro3":
         output=open('data2.pkl','wb')
@@ -55,7 +55,7 @@ def load(user,file):
     output.close()
     if file=="my_data3":
         rd=open('data.pkl','r')
-    elif file=="my_star3":
+    elif file=="my_star5":
         rd=open('data1.pkl','r')
     elif file=="my_pro3":
         rd=open('data2.pkl','r')
@@ -86,7 +86,7 @@ def home():
     # start_up.update({"start_name":{}})
     # project.update({"pro_name":{}})
     # load(users,"my_data3")
-    # load(start_up,"my_star3")
+    # load(start_up,"my_star5")
     # load(project,"my_pro3")
     c=input()
     if c==1:
@@ -98,7 +98,7 @@ def home():
 def sign_up():
     #if (r.get("my_data3")):
     userp=unload(users,"my_data3")
-    # users=unload("my_star3")
+    # users=unload("my_star5")
     # load(project,"my_pro3")
     # users=unload("my_pro3")
     language=[]
@@ -149,14 +149,14 @@ def sign_up():
     userp[username]["contact_no"] = contact_no
     userp[username]["technologies"]={}
     userp[username]["request"]=[]
-    userp[username]["messages"]=[]
+    userp[username]["message"]=[]
     userp[username]["technologies"]["languages"] = language
     userp[username]["technologies"]["framework"] = framework
     userp[username]["technologies"]["module"] = module
     userp[username]["startup"]=0
     userp[username]["proj"]=0
     load(userp,"my_data3")
-    # load(start_up,"my_star3")
+    # load(start_up,"my_star5")
     # load(project,"my_pro3")
     time.sleep(1)
     print("Account has been created\n")
@@ -175,13 +175,13 @@ def login():
 
 def dashboard(nam):
     userp=unload(users,"my_data3")
-    # if (r.get("my_star3")):
-    start_up=unload(start_up1,"my_star3")
+    # if (r.get("my_star5")):
+    start_up=unload(start_up1,"my_star5")
     # if (r.get("my_pro3")):
     project=unload(project1,"my_pro3")
 
 
-    if r.get("my_star3") is not None:
+    if r.get("my_star5") is not None:
         for k, v in start_up.iteritems():
             if isinstance(v,dict):
                 print"                  Start_up name: ",k
@@ -245,7 +245,7 @@ def dashboard(nam):
             name=raw_input("Enter startup name\n")
             f=start_up[name]["likes"]
             start_up[name]["likes"]=f+1
-            load(start_up,"my_star3")
+            load(start_up,"my_star5")
         if c==2:
             name=raw_input("Enter project name\n")
             f=project[name]["likes"]
@@ -255,7 +255,7 @@ def dashboard(nam):
             name=raw_input("Enter startup name\n")
             cmmnt=raw_input("Enter comment")
             start_up[name]["comments"].append(cmmnt)
-            load(start_up,"my_star3")
+            load(start_up,"my_star5")
         if c==4:
             name=raw_input("Enter project name\n")
             cmmnt=raw_input("Enter comment")
@@ -300,28 +300,30 @@ def dashboard(nam):
                 print"No new request"
             else:
                 l=[]
-                for k in userp[nam]["request"]:
-                    print k,"\n"
-                    y=input("Want to accept any request (1/0)")
-                    if y==1:
-                        appl=raw_input("Write applicant name")
-                        pro=raw_input("Write startup/project name")
-                        str="Congratulations you are selected for ",pro
-                        userp[appl]["message"].append()
-                        if pro in start_up[pro]:
-                            start_up[pro]["members"].append(appl)
-                        else:
-                            project[pro]["members"].append(appl)
-                        userp[nam]["request"].clear()
-                        load(userp,"my_data3")
-                        load(start_up,"my_star3")
-                        load(project,"my_pro3")
+                # for k in userp[nam]["request"]:
+                #     print k,"\n"
+                a=userp[nam]["request"]
+                print a
+                y=input("Want to accept any request (1/0)")
+                if y==1:
+                    appl=raw_input("Write applicant name")
+                    pro=raw_input("Write startup/project name")
+                    str="Congratulations you are selected for ",pro
+                    userp[appl]["message"].append(str)
+                    if pro in start_up[pro]:
+                        start_up[pro]["members"].append(appl)
+                    else:
+                        project[pro]["members"].append(appl)
+                    userp[nam]["request"].clear()
+                    load(userp,"my_data3")
+                    load(start_up,"my_star5")
+                    load(project,"my_pro3")                   
         x=input("Want to do anything else (1/0)")
     
 
 def join_startup(nam,name):
     userp=unload(users,"my_data3")
-    start_up=unload(start_up1,"my_star3")
+    start_up=unload(start_up1,"my_star5")
     # l=0
     # isec=0
     # for lis in userp[nam]["technologies"]["languages"]:
@@ -343,7 +345,7 @@ def join_startup(nam,name):
     #     str=userp[nam]+" requested to join the startup "+start_up[name]
     #     userp[start_up[name]["author"]]["request"].append(str)
     if not all(any(x in y for y in lis) for x in lis1):
-        str=userp[nam]+" requested to join the startup "+start_up[name]
+        str=nam+" requested to join the startup "+name
         userp[start_up[name]["author"]]["request"].append(str)
 
     else:
@@ -353,14 +355,14 @@ def join_startup(nam,name):
 def join_project(nam,name):
     userp=unload(users,"my_data3")
     project=unload(project1,"my_pro3")
-    str=userp[nam]+" requested to join the project "+project[name]
+    str=nam+" requested to join the project "+name
     userp[project[name]["author"]]["request"].append(str)
     # userp[project[name]["author"]]["request"].clear()
     load(userp,"my_data3")
 
 def add_startup(name):
     userp=unload(users,"my_data3")
-    start_up=unload(start_up1,"my_star3")
+    start_up=unload(start_up1,"my_star5")
     start_name=raw_input("Enter startup name\n")
     desc=raw_input("Enter brief description about the startup\n")
     print"Enter skill set required\n"
@@ -374,16 +376,22 @@ def add_startup(name):
     start_up[start_name]["likes"]=0
     start_up[start_name]["comments"]=[]
     start_up[start_name]["skill_set"]={}
-    l=lang.split(",")
+    l=[]
+    f=[]
+    m=[]
+    t=lang.split(",")
+    l.append(t)
     start_up[start_name]["skill_set"]["language"]=l
-    f=frame.split(",")
+    o=frame.split(",")
+    f.append(o)
     start_up[start_name]["skill_set"]["framework"]=f
-    m=mod.split(",")
+    z=mod.split(",")
+    m.append(z)
     start_up[start_name]["skill_set"]["module"]=m
     userp[name]["startup"]=userp[name]["startup"]+1
     load(userp,"my_data3")
-    load(start_up,"my_star3")
-    unload(start_up,"my_star3")
+    load(start_up,"my_star5")
+    unload(start_up,"my_star5")
 
 def  add_project(name):
     userp=unload(users,"my_data3")
